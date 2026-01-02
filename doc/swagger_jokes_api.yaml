@@ -1,0 +1,193 @@
+openapi: 3.0.3
+info:
+  title: Jokes API
+  version: 1.0.0
+  description: API REST para obtener, crear, actualizar y eliminar chistes.
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor local
+
+paths:
+  /jokes:
+    get:
+      summary: Obtener un chiste aleatorio local
+      responses:
+        '200':
+          description: Chiste aleatorio
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      joke:
+                        type: string
+                        example: Random local joke
+    post:
+      summary: Crear un chiste
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  example: My custom joke
+      responses:
+        '201':
+          description: Chiste creado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 201
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      text:
+                        type: string
+                        example: My custom joke
+        '400':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /jokes/{type}:
+    get:
+      summary: Obtener chiste externo
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [Chuck, Dad]
+          description: Tipo de chiste externo
+      responses:
+        '200':
+          description: Chiste externo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      joke:
+                        type: string
+                        example: Chuck Norris can divide by zero.
+        '400':
+          description: Tipo de chiste inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Error en servicio externo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /jokes/{number}:
+    put:
+      summary: Actualizar un chiste
+      parameters:
+        - name: number
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del chiste
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  example: Updated joke
+      responses:
+        '200':
+          description: Chiste actualizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Updated
+        '400':
+          description: Chiste no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      summary: Eliminar un chiste
+      parameters:
+        - name: number
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del chiste
+      responses:
+        '200':
+          description: Chiste eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Deleted
+        '400':
+          description: Chiste no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: Error message
