@@ -9,12 +9,12 @@ import path from "path";
 const app = express();
 app.use(express.json());
 
-// Ruta absoluta al YAML
-const swaggerPath = path.resolve(__dirname, "../doc/swagger_jokes_api.yaml");
+// swaggerDocument
+const swaggerPath = path.join(__dirname, "../doc/swagger_jokes_api.yaml");
+
+// Leemos y parseamos el YAML
 const file = fs.readFileSync(swaggerPath, "utf8");
 const swaggerDocument = yaml.parse(file);
-
-// Ruta para Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Rutas de la API
