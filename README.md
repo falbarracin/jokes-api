@@ -11,7 +11,7 @@ API REST construida con Node.js, Express y TypeScript para realizar gestion de c
 - TypeScript
 - Jest (Testing)
 - Swagger (Documentación)
-- SQL/PostgreSQL (opcional para persistencia futura)
+- SQLLite
 
 ---
 
