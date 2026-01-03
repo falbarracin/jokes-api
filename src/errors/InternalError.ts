@@ -1,0 +1,9 @@
+export class InternalError extends Error {
+  status: number;
+  constructor(message: string) {
+    super(message);
+    this.status = 500;
+    this.name = "InternalError";
+    Object.setPrototypeOf(this, InternalError.prototype);
+  }
+}

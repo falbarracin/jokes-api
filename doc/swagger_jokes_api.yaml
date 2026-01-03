@@ -8,7 +8,7 @@ servers:
   - url: http://localhost:3000
     description: Servidor local
 
-paths:
+paths:    
   /jokes:
     get:
       summary: Obtener un chiste aleatorio local
@@ -34,7 +34,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+            application/json:
             schema:
               type: object
               properties:
@@ -179,7 +179,84 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /operation/lcm:
+    get:
+      summary: Calcular el mínimo común múltiplo (LCM)
+      description: Calcula el mínimo común múltiplo entre dos números enteros.
+      parameters:
+        - name: a
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 6
+          description: Primer número
+        - name: b
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 8
+          description: Segundo número
+      responses:
+        '200':
+          description: LCM calculado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      lcm:
+                        type: integer
+                        example: 24
+        '400':
+          description: Parámetros inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
+  /operation/increment:
+    get:
+      summary: Incrementar un número
+      description: Incrementa en uno el valor recibido por parámetro.
+      parameters:
+        - name: value
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 10
+          description: Número a incrementar
+      responses:
+        '200':
+          description: Número incrementado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      result:
+                        type: integer
+                        example: 11
+        '400':
+          description: Parámetro inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
     ErrorResponse:

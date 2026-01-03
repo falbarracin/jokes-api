@@ -1,5 +1,6 @@
 import express from "express";
 import jokesRoutes from "./routes/jokes.routes";
+import mathRoutes from "./routes/operation.routes";
 import { errorHandler } from "./middlewares/errorHandler";
 import swaggerUi from "swagger-ui-express";
 import fs from "fs";
@@ -19,6 +20,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Rutas de la API
 app.use("/jokes", jokesRoutes);
+app.use("/operation", mathRoutes);
 
 // Middleware de errores
 app.use(errorHandler);
