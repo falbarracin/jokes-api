@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: jokes-postgres
+    environment:
+      POSTGRES_DB: jokesdb
+      POSTGRES_USER: jokes
+      POSTGRES_PASSWORD: jokes
+    ports:
+      - "5432:5432"

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BadRequestError } from "../errors/BadRequestError";
 import { ExternalServiceError } from "../errors/ExternalServiceError";
-import { jokeRepository } from "../repositories/jokes.repository";
+import * as jokeRepository from "../repositories/jokes.repository";
 import { API_URLS } from "../config/apiUrls"; 
 
 const JOKE_TYPES = {
@@ -42,13 +42,17 @@ export async function getJoke(type?: string) {
 }
 
 /**
- * Persists a new joke in the data store.
+ * Persists a new joke.
  *
  * @param text Joke content to be saved
  * @returns The newly created joke entity
  */
 export async function saveJoke(text: string) {
-  return jokeRepository.create(text);
+   if (!text || text.trim() === "") {
+    throw new BadRequestError("The joke text is mandatory");
+  }
+
+  return await jokeRepository.create(text);
 }
 
 /**
@@ -59,8 +63,16 @@ export async function saveJoke(text: string) {
  * @throws BadRequestError If the joke does not exist
  */
 export async function updateJoke(id: number, text: string) {
-  const updated = await jokeRepository.update(id, text);
-  if (!updated) throw new BadRequestError("Joke not found");
+
+   if (id == 0) {
+    throw new BadRequestError("The joke Id is mandatory");
+  }
+
+   if (!text || text.trim() === "") {
+    throw new BadRequestError("The joke text is mandatory");
+  }
+
+  return await jokeRepository.update(id, text);
 }
 
 /**
@@ -70,6 +82,5 @@ export async function updateJoke(id: number, text: string) {
  * @throws BadRequestError If the joke does not exist
  */
 export async function deleteJoke(id: number) {
-  const deleted = await jokeRepository.delete(id);
-  if (!deleted) throw new BadRequestError("Joke not found");
+    return await jokeRepository.remove(id);
 }

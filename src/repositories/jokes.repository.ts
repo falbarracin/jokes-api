@@ -1,27 +1,25 @@
-import { db } from "../storage/db";
+import { Joke } from "../models/Joke";
 
-export const jokeRepository = {
-  async create(text: string) {
-    return new Promise(resolve => {
-      db.run("INSERT INTO jokes(text) VALUES (?)", [text], function() {
-        resolve({ id: this.lastID, text });
-      });
-    });
-  },
+export async function create(text: string) {
+  return Joke.create({ text });
+}
 
-  async update(id: number, text: string) {
-    return new Promise<boolean>(resolve => {
-      db.run("UPDATE jokes SET text=? WHERE id=?", [text, id], function() {
-        resolve(this.changes > 0);
-      });
-    });
-  },
+export async function update(id: number, text: string): Promise<boolean> {
+  const [affected] = await Joke.update(
+    { text },
+    { where: { id } }
+  );
 
-  async delete(id: number) {
-    return new Promise<boolean>(resolve => {
-      db.run("DELETE FROM jokes WHERE id=?", [id], function() {
-        resolve(this.changes > 0);
-      });
-    });
-  }
-};
+  return affected === 1;
+}
+
+export async function remove(id: number): Promise<boolean> {
+  const affected = await Joke.destroy({ where: { id } });
+  return affected === 1;
+}
+
+export async function findRandom() {
+  return Joke.findOne({
+    order: [Joke.sequelize!.random()],
+  });
+}
