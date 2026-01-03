@@ -1,5 +1,5 @@
 
-# Jojes API
+# Jokes API
 
 npm install
 npm run dev
