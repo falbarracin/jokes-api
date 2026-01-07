@@ -1,15 +1,12 @@
 import app from "./app";
-import { sequelize } from "./config/sequelize";
+import { initDatabase } from "./database/init-db";
 
 const PORT = 3000;
 
 (async () => {
   try {
-    await sequelize.authenticate();
-    await sequelize.sync(); 
-
-    console.log("Database connected");
-
+    await initDatabase();
+ 
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
     });
