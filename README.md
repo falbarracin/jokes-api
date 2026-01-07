@@ -1,6 +1,20 @@
 
-# Jojes API
-Api destinada a gestionar chistes.
+# Jokes API
+API REST construida con Node.js, Express y TypeScript para realizar gestion de chistes. La API incluye documentación Swagger y manejo global de errores.
+
+---
+
+## Tecnologías
+
+- Node.js
+- Express.js
+- TypeScript
+- Jest (Testing)
+- Swagger (Documentación)
+- Sequelize
+- PostgreSQL
+
+---
 
 ## Instalación
 
@@ -27,4 +41,3 @@ NODE_ENV=development
    npm run dev
 
 Nota: La base de datos y las tablas se crean automáticamente mediante Sequelize al correr y levantar el docker compose.
-
